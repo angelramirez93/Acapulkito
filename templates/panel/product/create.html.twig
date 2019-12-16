@@ -1,0 +1,67 @@
+{% extends 'panel/base.html.twig' %}
+
+{% block title %}Crear Producto{% endblock %}
+
+{% block body %}
+
+<div class="card">
+  <div class="card-header bg-primary text-light font-weight-bold">
+    <h4>Crear Producto</h4>
+  </div>
+  <div class="card-body text-center">
+  	<form id="productform">
+  	<div class="row mb-4">
+  		<div class="col-md-6">
+  			<label for="nombre">Nombre: </label>
+	  		<div class="input-group">
+	  			<input type="text" name="nombre" value="" required="required" class="form-control">
+	  		</div>
+	  	</div>
+	  	<div class="col-md-6">
+	  		<label for="precio">Precio: </label>
+	  		<div class="input-group">
+	  			<input type="number" name="precio" value="" required="required" class="form-control">
+	  		</div>
+	  	</div>
+	  	<div class="col-md-6 mx-auto">
+	  		<label for="descripcion">Descripcion: </label>
+	  		<div class="input-group">
+	  			<textarea name="descripcion" class="form-control"></textarea>
+	  		</div>
+	  	</div>
+  	</div>
+	<button class="btn btn-primary mx-auto" id="saveinfo"><i class="fas fa-save"></i> Save</button>
+  </div>
+</div>
+</form>
+
+
+ {% endblock %}
+
+ {% block customjs %}
+<script type="text/javascript">
+$( document ).ready(function() {
+
+	$('#productform').submit(function(event) {
+		event.preventDefault();
+		$.ajax({
+			url: "{{path('create_product_action')}}",
+			type: 'POST',
+			data: $("#productform").serialize(),
+		})
+		.done(function(data) {
+		})
+		.fail(function() {
+		})
+		.always(function(data) {
+			Swal.fire(
+			  data.title,
+			  data.message,
+			  data.status
+			)
+		});
+	});
+
+});
+</script>
+ {% endblock %}
